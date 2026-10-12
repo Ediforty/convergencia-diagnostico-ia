@@ -9,6 +9,8 @@ export interface RoadmapAction {
   id: string;
   stage: Horizon;
   title: string;
+  /** Acción concreta, cuando proviene de una recomendación. */
+  action?: string;
   deliverable: string;
   owner: string;
   dependency: string;
@@ -62,7 +64,8 @@ export function buildRoadmap(recommendations: Recommendation[], useCases: UseCas
       id: `REC-${rec.id}`,
       stage: rec.horizon,
       title: rec.title,
-      deliverable: rec.type === 'verificacion' ? rec.expectedResult : `${rec.expectedResult} (acción: ${rec.action})`,
+      action: rec.action,
+      deliverable: rec.expectedResult,
       owner: rec.owner,
       dependency: openDeps.length ? openDeps.map((d) => `${d.ruleId} — ${d.title}`).join('; ') : 'Ninguna pendiente.',
       indicator: rec.indicator,
